@@ -1,9 +1,20 @@
-This 2nd simple example works with of SPIFFS on ESP32/ES8266 but could be easy
-changed to read out of an SDcard on another chip like teensy by removing the
-stubs from FilenameFunctions.  
-This implementation includes uses the minimal necessary functions from
-FilenameFunctions.cpp for SPIFFS directly inside GifAnim_Impl.h.
 
-This version will work with both the native SmartMatrix and NeoMatrix APIs as defined in neomatrix_config.h
+# ESP32_Neomatrix_GIF_display
+Simple test sketch to test the display of GIFs on a "Neomatrix"-kind LED display.
 
--- Marc MERLIN <marc_soft@merlins.org>
+The following sizes are possible.
+
+ - 8x8
+ - 16x16
+ - 32x32
+ - 64x64
+# Installation
+ - Compile using Arduino IDE
+ - GIF files  need to be copied to ESP filesystem. Useful links how to do that:
+	 - https://unsinnsbasis.de/littlefs-esp32/
+	 - https://unsinnsbasis.de/littlefs-esp32-teil2/
+
+# Credits:
+Most of the work is heavily based on the following repositories. All credits belong to them!
+ - https://github.com/marcmerlin/AnimatedGIFs
+ - https://github.com/MarcFork/AnimatedGIFs
