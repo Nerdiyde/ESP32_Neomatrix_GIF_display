@@ -115,7 +115,7 @@ extern File file;
 /* template parameters are maxGifWidth, maxGifHeight, lzwMaxBits
    defined in config.h
 */
-GifDecoder<gif_size, gif_size, lzwMaxBits> decoder;
+GifDecoder<GIF_SIZE, GIF_SIZE, lzwMaxBits> decoder;
 
 void screenClearCallback(void) {
 #ifdef NEOMATRIX
@@ -278,11 +278,12 @@ void sav_setup()
 #endif
   Serial.print("GifAnim Viewer enabled, lzwMaxBits: ");
   Serial.print(lzwMaxBits);
-  Serial.print(", gif_size: ");
-  Serial.println(gif_size);
+  Serial.print(", GIF_SIZE: ");
+  Serial.println(GIF_SIZE);
 }
 
-bool sav_newgif(const char *pathname) {
+bool sav_newgif(const char *pathname) 
+{
   Serial.print(pathname);
 
 #ifdef ARDUINOONPC
@@ -294,13 +295,15 @@ bool sav_newgif(const char *pathname) {
   file = FSO.open(pathname, "r");
 #else
   file = FFat.open(pathname);
-#endif
-#endif
-  if (!file) {
+#endif //FSOFATFS
+#endif //ARDUINOONPC
+
+  if (!file) 
+  {
     Serial.println(": Error opening GIF file");
 #ifdef ARDUINOONPC
     Serial.println(strerror(errno));
-#endif
+#endif //ARDUINOONPC
     return 1;
   }
   Serial.print(": Opened GIF file, start decoding (OFFSETX: ");
@@ -316,7 +319,8 @@ bool sav_newgif(const char *pathname) {
   return 0;
 }
 
-bool sav_loop() {
+bool sav_loop() 
+{
   // ERROR_WAITING means it wasn't time to display the next frame and the display did
   // not get updated (this is important for a neopixel matrix where the display being
   // updated causes a pause in the code).

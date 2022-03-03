@@ -1,0 +1,8 @@
+list of demos
+24x32 64x64BM 64x96BM 64x96 96x128 Demo#_Mapped
+
+0 disabled
+1 enabled
+3 enabled + bestof
+
+each line is 18 characters long (including newline)

@@ -25,7 +25,8 @@ typedef struct rgb_24 {
 #define LZW_SIZTABLE  (1 << lzwMaxBits)
 
 template <int maxGifWidth, int maxGifHeight, int lzwMaxBits>
-class GifDecoder {
+class GifDecoder 
+{
 public:
     int startDecoding(void);
     int decodeFrame(void);

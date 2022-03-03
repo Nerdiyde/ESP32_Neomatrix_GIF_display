@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Wifi Remote</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+      <select id="newDemoSelector" name="newDemoIndex" class="demoSelect" onchange="submitParam('newDemoIndex', document.getElementById('newDemoSelector').value)">
+        %LIST_DEMO_OPTIONS%
+      </select>
+      
+      <button class='prevButton' onclick="submitParam('prev', 1)">PREV .gif</button><button class='nextButton'  onclick="submitParam('next', 1)">NEXT .gif</button>
+      
+      <input type="submit" id='brightnessButton' value="test" class='brightnessSubmit' onclick="submitParam('brightness', document.getElementById('brightnessSlider').value)">
+      <div class="slidecontainer">
+        <input type='range' name='brightness' step='1' min='%MIN_BRIGHTNESS%' max='%MAX_BRIGHTNESS%' value='%CURRENT_BRIGHTNESS%' id='brightnessSlider' class='slider'/>
+      </div>
+      
+      <script>
+        var demoSelector = document.getElementById('newDemoSelector');
+        
+        demoSelector.value = %CURRENT_INDEX%;
+      
+        function submitParam(parameter, val) {
+          var http = new XMLHttpRequest();
+          var params = parameter + "=" + val;
+          http.open("GET", "/index.htm?" + params, true);
+          http.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+          http.send();
+          
+          if(parameter == "next") incDemoSelector();
+          if(parameter == "prev") decDemoSelector();
+        }
+        
+        function incDemoSelector(){
+          var currentIndex = demoSelector.options.selectedIndex;
+          var maxIndex = demoSelector.options.length;
+          
+          var newIndex = currentIndex + 1;
+          if (newIndex >= maxIndex) newIndex = 0;
+          
+          demoSelector.value = demoSelector.options[newIndex].value;
+        }
+        
+        function decDemoSelector(){
+          var currentIndex = demoSelector.options.selectedIndex;
+          var maxIndex = demoSelector.options.length;
+          
+          var newIndex = currentIndex - 1;
+          if (newIndex < 0) newIndex = maxIndex - 1;
+          
+          demoSelector.value = demoSelector.options[newIndex].value;
+        }
+        
+        var slider = document.getElementById("brightnessSlider");
+        var button = document.getElementById("brightnessButton");
+                
+        button.value = 'Set Brightness to ' + slider.value;
+        
+        slider.oninput = function() {
+          button.value = 'Set Brightness to ' + slider.value;
+        }
+      </script>
+  </body>
+</html>
