@@ -27,7 +27,6 @@ const int lzwMaxBits = 12;
 // instead it's included once from AnimatedGIFs.ino
 #include "neomatrix_config.h"
 
-
 // If the matrix is a different size than the GIFs, set the offset for the upper left corner
 // (negative or positive is ok).
 extern int OFFSETX;
@@ -35,5 +34,4 @@ extern int OFFSETY;
 extern int FACTX;
 extern int FACTY;
 
-#define DISPLAY_TIME_SECONDS 10
 #endif

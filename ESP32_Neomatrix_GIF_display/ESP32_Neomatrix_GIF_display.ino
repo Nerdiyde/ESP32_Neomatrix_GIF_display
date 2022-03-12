@@ -5,17 +5,17 @@
 // Use NeoMatrix API, even if it may use the SmartMatrix backend depending on the CPU
 
 #define NEOMATRIX
-#define MATRIX_PIN 0
+#define MATRIX_PIN 16
 #define MATRIX_BRIGHTNESS 10
 
-//#define MATRIX_SIZE_16X16
-//#define GIF_SIZE 16
+#define MATRIX_SIZE_16X16
+#define GIF_SIZE 16
 
 //#define MATRIX_SIZE_32X32_4_TILES
 //#define GIF_SIZE 32
 
-#define PXLBLCK_32X32_FROM_4_16X16_TILES
-#define GIF_SIZE 32
+//#define PXLBLCK_32X32_FROM_4_16X16_TILES
+//#define GIF_SIZE 32
 
 #include "GifAnim_Impl.h"
 
@@ -30,8 +30,8 @@ int FACTY = 10;
 void setup()
 {
 
-    //const char *pathname = "/gifs16/corkscrew.gif";
-    const char *pathname = "/gifs32/corkscrew.gif";
+    const char *pathname = "/gifs16/corkscrew.gif";
+    //const char *pathname = "/gifs32/corkscrew.gif";
 
   sav_setup();
 
