@@ -152,4 +152,4 @@ private:
 #include "GifDecoder_Impl.h"
 #include "LzwDecoder_Impl.h"
 
-#endif
+#endif //_GIFDECODER_H_

@@ -29,11 +29,17 @@
 
 #define LZWDEBUG 0
 
-#if defined (ARDUINO)
+//#if defined (ARDUINO)
+
 #include <Arduino.h>
-#elif defined (SPARK)
+
+/*
+#elif defined (SPARK) //defined (ARDUINO)
+
 #include "application.h"
-#endif
+
+#endif //defined (ARDUINO)
+*/
 
 #include "GifDecoder.h"
 
@@ -46,7 +52,8 @@ void GifDecoder<maxGifWidth, maxGifHeight, lzwMaxBits>::lzw_setTempBuffer(uint8_
 //   csize initial code size in bits
 //   buf input data
 template <int maxGifWidth, int maxGifHeight, int lzwMaxBits>
-void GifDecoder<maxGifWidth, maxGifHeight, lzwMaxBits>::lzw_decode_init (int csize) {
+void GifDecoder<maxGifWidth, maxGifHeight, lzwMaxBits>::lzw_decode_init (int csize) 
+{
 
     // Initialize read buffer variables
     bbuf = 0;
@@ -68,7 +75,8 @@ void GifDecoder<maxGifWidth, maxGifHeight, lzwMaxBits>::lzw_decode_init (int csi
 
 //  Get one code of given number of bits from stream
 template <int maxGifWidth, int maxGifHeight, int lzwMaxBits>
-int GifDecoder<maxGifWidth, maxGifHeight, lzwMaxBits>::lzw_get_code() {
+int GifDecoder<maxGifWidth, maxGifHeight, lzwMaxBits>::lzw_get_code() 
+{
 
     while (bbits < cursize) {
         if (bcnt == bs) {
@@ -93,7 +101,8 @@ int GifDecoder<maxGifWidth, maxGifHeight, lzwMaxBits>::lzw_get_code() {
 //   len number of pixels to decode
 //   returns the number of bytes decoded
 template <int maxGifWidth, int maxGifHeight, int lzwMaxBits>
-int GifDecoder<maxGifWidth, maxGifHeight, lzwMaxBits>::lzw_decode(uint8_t *buf, int len, uint8_t *bufend) {
+int GifDecoder<maxGifWidth, maxGifHeight, lzwMaxBits>::lzw_decode(uint8_t *buf, int len, uint8_t *bufend) 
+{
     int l, c, code;
 
 #if LZWDEBUG == 1
