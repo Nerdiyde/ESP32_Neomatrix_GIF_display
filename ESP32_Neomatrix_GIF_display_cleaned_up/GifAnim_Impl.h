@@ -1,8 +1,8 @@
 // when including in other code, allow disabling all those inits
 // to avoid double inits.
-#ifndef GIFANIM_INCLUDE
+/*#ifndef GIFANIM_INCLUDE
 #include "animatedgif_config.h"
-#endif
+#endif*/
 
 // Use NeoMatrix backend? Defined in main ino that calls sav_loop
 
@@ -44,8 +44,11 @@ void drawPixelCallback(int16_t x, int16_t y, uint8_t red, uint8_t green, uint8_t
   red   = matrix->gamma[red];
   green = matrix->gamma[green];
   blue  = matrix->gamma[blue];
+  
 #if DEBUGLINE
-  if (y == DEBUGLINE) {
+
+  if (y == DEBUGLINE) 
+  {
     Serial.print(x);
     Serial.print(",");
     Serial.print(y);
@@ -58,9 +61,9 @@ void drawPixelCallback(int16_t x, int16_t y, uint8_t red, uint8_t green, uint8_t
     Serial.println("");
   }
   if (y > DEBUGLINE) return;
+  
 #endif
 
-//#ifdef NEOMATRIX
   CRGB color = CRGB(red, green, blue);
 
   uint16_t basex = x * FACTX / 10 + OFFSETX;
@@ -68,13 +71,16 @@ void drawPixelCallback(int16_t x, int16_t y, uint8_t red, uint8_t green, uint8_t
 
   matrix->drawPixel(basex, basey, color);
 
-  if (FACTX > 10 && FACTY > 10) {
+  if (FACTX > 10 && FACTY > 10) 
+  {
     matrix->drawPixel(basex + 1, basey,   color);
     matrix->drawPixel(basex,   basey + 1, color);
     matrix->drawPixel(basex + 1, basey + 1, color);
-  } else if (FACTY > 10) {
+  } else if (FACTY > 10) 
+  {
     matrix->drawPixel(basex,   basey + 1, color);
-  } else if (FACTX > 10) {
+  } else if (FACTX > 10) 
+  {
     matrix->drawPixel(basex + 1, basey,   color);
   }
 }
@@ -84,12 +90,16 @@ bool sav_newgif(const char *pathname)
   Serial.print(pathname);
   
   if (file) file.close();
+  
 #ifndef FSOFATFS
+
   file = FSO.open(pathname, "r");
+  
 #else
+
   file = FFat.open(pathname);
+  
 #endif //FSOFATFS
-//#endif //ARDUINOONPC
 
   if (!file)
   {

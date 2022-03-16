@@ -767,7 +767,8 @@ int GifDecoder<maxGifWidth, maxGifHeight, lzwMaxBits>::parseData()
 }
 
 // from neomatrix_config.h
-extern void show_free_mem(const char *);
+//extern void show_free_mem(const char *);
+
 extern void *mallocordie(const char *varname, uint32_t req, bool psram);
 
 template <int maxGifWidth, int maxGifHeight, int lzwMaxBits>
@@ -786,7 +787,7 @@ int GifDecoder<maxGifWidth, maxGifHeight, lzwMaxBits>::startDecoding(void)
     tempBuffer = (char *)		mallocordie("tempBuffer", tempBufferSz, false); // 260 bytes
 
     // from neomatrix_config.h:
-    show_free_mem();
+    //show_free_mem();
   }
 
   // For 64x64 GIFS on a 64x96 display, PSRAM saves 24KB of real RAM:
