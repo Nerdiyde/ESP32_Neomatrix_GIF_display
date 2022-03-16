@@ -245,36 +245,39 @@ void matrix_setup(bool initserial = true, int reservemem = 40000, int matrix_gam
 
 
 
-
+/*
 // Like XY, but for a mirror image from the top (used by misconfigured code)
 int XY2( int x, int y, bool wrap = false)
 {
   wrap = wrap; // squelch compiler warning
   return matrix->XY(x, MATRIX_HEIGHT - 1 - y);
-}
+}*/
 
+/*
 // FastLED::colorutils needs a signature with uint8_t
 uint16_t XY( uint8_t x, uint8_t y)
 {
   return matrix->XY(x, y);
-}
+}*/
+
+/*
 // but x/y can be bigger than 256
 uint16_t XY16( uint16_t x, uint16_t y)
 {
   return matrix->XY(x, y);
-}
-
+}*/
+/*
 int wrapX(int x)
 {
   if (x < 0 ) return 0;
   if (x >= MATRIX_WIDTH) return (MATRIX_WIDTH - 1);
   return x;
-}
-
+}*/
+/*
 void show_free_mem(const char *pre = NULL)
 {
   Framebuffer_GFX::show_free_mem(pre);
-}
+}*/
 
 void die(const char *mesg)
 {

@@ -86,10 +86,14 @@ int GifDecoder<maxGifWidth, maxGifHeight, lzwMaxBits>::lzw_get_code()
     return c & curmask;
 }
 
+
+
 // Decode given number of bytes
 //   buf 8 bit output buffer
 //   len number of pixels to decode
 //   returns the number of bytes decoded
+
+
 template <int maxGifWidth, int maxGifHeight, int lzwMaxBits>
 int GifDecoder<maxGifWidth, maxGifHeight, lzwMaxBits>::lzw_decode(uint8_t *buf, int len, uint8_t *bufend) 
 {
