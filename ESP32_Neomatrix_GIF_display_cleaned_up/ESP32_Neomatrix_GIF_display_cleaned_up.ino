@@ -10,16 +10,16 @@
 
 #define MATRIX_PIN 16 // Gpio of the led matrix
 
-#define MATRIX_BRIGHTNESS 10 //brightness of the led matrix. Possible values: 0-255
+#define MATRIX_BRIGHTNESS 80 //brightness of the led matrix. Possible values: 0-255
 
-#define MATRIX_SIZE_16X16
-#define GIF_SIZE 16
+//#define MATRIX_SIZE_16X16
+//#define GIF_SIZE 16
 
 //#define MATRIX_SIZE_32X32_4_TILES
 //#define GIF_SIZE 32
 
-//#define PXLBLCK_32X32_FROM_4_16X16_TILES
-//#define GIF_SIZE 32
+#define PXLBLCK_32X32_FROM_4_16X16_TILES
+#define GIF_SIZE 32
 
 // If the matrix is a different size than the GIFs, allow panning through the GIF
 // while displaying it, or bouncing it around if it's smaller than the display
@@ -71,7 +71,7 @@ void matrix_setup(bool initserial = true, int reservemem = 40000, int matrix_gam
   // ESP32 has more memory available for allocation in setup than in global
   // (if this were a global array), so we use malloc here.
   // https://forum.arduino.cc/index.php?topic=647833
-  matrixleds = (CRGB *) mallocordie("matrixleds", sizeof(CRGB) * NUMMATRIX, 1);
+  matrixleds = (CRGB *) mallocordie("matrixleds", sizeof(CRGB) * MATRIX_WIDTH * MATRIX_HEIGHT, 1);
   // and then fix the until now NULL pointer in the object.
   matrix->newLedsPtr(matrixleds);
   //show_free_mem("After matrixleds malloc");
@@ -81,16 +81,16 @@ void matrix_setup(bool initserial = true, int reservemem = 40000, int matrix_gam
   //============================================================================================
 #if defined(MATRIX_SIZE_16X16)
 
-  FastLED.addLeds<NEOPIXEL, MATRIXPIN>(matrixleds, NUMMATRIX).setCorrection(TypicalLEDStrip);
+  FastLED.addLeds<NEOPIXEL, MATRIXPIN>(matrixleds, MATRIX_WIDTH * MATRIX_HEIGHT).setCorrection(TypicalLEDStrip);
   Serial.print("Neomatrix total LEDs: ");
-  Serial.print(NUMMATRIX);
+  Serial.print(MATRIX_WIDTH * MATRIX_HEIGHT);
   Serial.print(" running on pin: ");
   Serial.println(MATRIXPIN);
 
 #elif defined(MATRIX_SIZE_24X24) //defined(MATRIX_SIZE_16X16)
-  FastLED.addLeds<NEOPIXEL, MATRIXPIN>(matrixleds, NUMMATRIX).setCorrection(TypicalLEDStrip);
+  FastLED.addLeds<NEOPIXEL, MATRIXPIN>(matrixleds, MATRIX_WIDTH * MATRIX_HEIGHT).setCorrection(TypicalLEDStrip);
   Serial.print("Neomatrix total LEDs: ");
-  Serial.print(NUMMATRIX);
+  Serial.print(MATRIX_WIDTH * MATRIX_HEIGHT);
   Serial.print(" running on pin: ");
   Serial.println(MATRIXPIN);
 
@@ -99,48 +99,52 @@ void matrix_setup(bool initserial = true, int reservemem = 40000, int matrix_gam
 #elif defined(MATRIX_SIZE_32X8_3_TIMES) //defined(MATRIX_SIZE_16X16)
   // Init Matrix
   // Serialized, 768 pixels takes 26 seconds for 1000 updates or 26ms per refresh
-  // FastLED.addLeds<NEOPIXEL,MATRIXPIN>(matrixleds, NUMMATRIX).setCorrection(TypicalLEDStrip);
+  // FastLED.addLeds<NEOPIXEL,MATRIXPIN>(matrixleds, MATRIX_WIDTH*MATRIX_HEIGHT).setCorrection(TypicalLEDStrip);
   // https://github.com/FastLED/FastLED/wiki/Parallel-Output
   // WS2811_PORTA - pins 12, 13, 14 and 15 or pins 6,7,5 and 8 on the NodeMCU
   // This is much faster 1000 updates in 10sec
   // See  https://github.com/FastLED/FastLED/wiki/Parallel-Output for pin definitions
 #ifdef ESP8266
-  FastLED.addLeds<WS2811_PORTA, 3>(matrixleds, NUMMATRIX / MATRIX_TILE_H).setCorrection(TypicalLEDStrip);
+  FastLED.addLeds<WS2811_PORTA, 3>(matrixleds, (MATRIX_WIDTH * MATRIX_HEIGHT) / MATRIX_TILE_H).setCorrection(TypicalLEDStrip);
 #else //ESP8266
-  FastLED.addLeds<WS2811_PORTD, 3>(matrixleds, NUMMATRIX / MATRIX_TILE_H).setCorrection(TypicalLEDStrip);
+  FastLED.addLeds<WS2811_PORTD, 3>(matrixleds, (MATRIX_WIDTH * MATRIX_HEIGHT) / MATRIX_TILE_H).setCorrection(TypicalLEDStrip);
 #endif //ESP8266
   Serial.print("Neomatrix parallel output, total LEDs: ");
-  Serial.println(NUMMATRIX);
+  Serial.println(MATRIX_WIDTH * MATRIX_HEIGHT);
 
   //============================================================================================
   // Serialized (slow-ish) output
 #elif defined(MATRIX_SIZE_16X16_4_TILES) //defined(MATRIX_SIZE_16X16)
-  FastLED.addLeds<NEOPIXEL, MATRIXPIN>(matrixleds, NUMMATRIX).setCorrection(TypicalLEDStrip);
+  FastLED.addLeds<NEOPIXEL, MATRIXPIN>(matrixleds, MATRIX_WIDTH * MATRIX_HEIGHT).setCorrection(TypicalLEDStrip);
   Serial.print("Neomatrix total LEDs: ");
-  Serial.print(NUMMATRIX);
+  Serial.print(MATRIX_WIDTH * MATRIX_HEIGHT);
   Serial.print(" running on pin: ");
   Serial.println(MATRIXPIN);
 
   //============================================================================================
   // Serialized (slow-ish) output
 #elif defined(MATRIX_SIZE_32X32_4_TILES) //defined(MATRIX_SIZE_16X16)
-  FastLED.addLeds<NEOPIXEL, MATRIXPIN>(matrixleds, NUMMATRIX).setCorrection(TypicalLEDStrip);
+  FastLED.addLeds<NEOPIXEL, MATRIXPIN>(matrixleds, MATRIX_WIDTH * MATRIX_HEIGHT).setCorrection(TypicalLEDStrip);
   Serial.print("Neomatrix total LEDs: ");
-  Serial.print(NUMMATRIX);
+  Serial.print(MATRIX_WIDTH * MATRIX_HEIGHT);
   Serial.print(" running on pin: ");
   Serial.println(MATRIXPIN);
   //============================================================================================
   // Serialized (slow-ish) output
 #elif defined(PXLBLCK_32X32_FROM_4_16X16_TILES) //defined(MATRIX_SIZE_16X16)
-  FastLED.addLeds<NEOPIXEL, MATRIXPIN>(matrixleds, NUMMATRIX).setCorrection(TypicalLEDStrip);
+
+#define NUM_STRIPS 16
+#define NUM_LEDS_PER_STRIP 256
+
+  FastLED.addLeds<NEOPIXEL, MATRIXPIN>(matrixleds, MATRIX_WIDTH * MATRIX_HEIGHT).setCorrection(TypicalLEDStrip);
   Serial.print("Neomatrix total LEDs: ");
-  Serial.print(NUMMATRIX);
+  Serial.print(MATRIX_WIDTH * MATRIX_HEIGHT);
   Serial.print(" running on pin: ");
   Serial.println(MATRIXPIN);
 
   //============================================================================================
 #elif defined(MATRIX_SIZE_64X64)  //defined(MATRIX_SIZE_16X16)
-// 64x64 straight connection (no matrices)
+  // 64x64 straight connection (no matrices)
   // https://github.com/FastLED/FastLED/wiki/Multiple-Controller-Examples
   FastLED.addLeds<WS2812B, 23, GRB>(matrixleds, 0 * NUM_LEDS_PER_STRIP, NUM_LEDS_PER_STRIP);
 #ifdef ESP32
@@ -162,7 +166,7 @@ void matrix_setup(bool initserial = true, int reservemem = 40000, int matrix_gam
   FastLED.addLeds<WS2812B, 13, GRB>(matrixleds, 15 * NUM_LEDS_PER_STRIP, NUM_LEDS_PER_STRIP);
 
   Serial.print("Neomatrix 16 pin via RMT/I2S 16 way parallel output, total LEDs: ");
-  Serial.println(NUMMATRIX);
+  Serial.println(MATRIX_WIDTH * MATRIX_HEIGHT);
 #endif // ESP32
 
   //int matrix_gamma = MATRIX_GAMMA_CORRECTION; // higher number is darker, needed for Neomatrix more than SmartMatrix
@@ -246,38 +250,38 @@ void matrix_setup(bool initserial = true, int reservemem = 40000, int matrix_gam
 
 
 /*
-// Like XY, but for a mirror image from the top (used by misconfigured code)
-int XY2( int x, int y, bool wrap = false)
-{
+  // Like XY, but for a mirror image from the top (used by misconfigured code)
+  int XY2( int x, int y, bool wrap = false)
+  {
   wrap = wrap; // squelch compiler warning
   return matrix->XY(x, MATRIX_HEIGHT - 1 - y);
-}*/
+  }*/
 
 /*
-// FastLED::colorutils needs a signature with uint8_t
-uint16_t XY( uint8_t x, uint8_t y)
-{
+  // FastLED::colorutils needs a signature with uint8_t
+  uint16_t XY( uint8_t x, uint8_t y)
+  {
   return matrix->XY(x, y);
-}*/
+  }*/
 
 /*
-// but x/y can be bigger than 256
-uint16_t XY16( uint16_t x, uint16_t y)
-{
+  // but x/y can be bigger than 256
+  uint16_t XY16( uint16_t x, uint16_t y)
+  {
   return matrix->XY(x, y);
-}*/
+  }*/
 /*
-int wrapX(int x)
-{
+  int wrapX(int x)
+  {
   if (x < 0 ) return 0;
   if (x >= MATRIX_WIDTH) return (MATRIX_WIDTH - 1);
   return x;
-}*/
+  }*/
 /*
-void show_free_mem(const char *pre = NULL)
-{
+  void show_free_mem(const char *pre = NULL)
+  {
   Framebuffer_GFX::show_free_mem(pre);
-}*/
+  }*/
 
 void die(const char *mesg)
 {
@@ -315,10 +319,10 @@ void *mallocordie(const char *varname, uint32_t req, bool psram = true)
   mem = malloc(req);
 #endif //ESP32
 
-  if (mem) 
+  if (mem)
   {
     return mem;
-  } else 
+  } else
   {
     //show_free_mem();
     Serial.println("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv");
@@ -351,8 +355,15 @@ uint32_t millisdiff(uint32_t before)
 void setup()
 {
 
-  const char *pathname = "/gifs16/corkscrew.gif";
-  //const char *pathname = "/gifs32/corkscrew.gif";
+  //const char *pathname = "/gifs16/corkscrew.gif";
+  //const char *pathname = "/gifs16/runningedgehog.gif";
+  //const char *pathname = "/gifs16/32anim_flower.gif";
+  //const char *pathname = "/gifs16/cubeslide.gif";
+
+  
+  
+  
+  const char *pathname = "/gifs32/runningedgehog.gif";
 
   decoder.setScreenClearCallback(screenClearCallback);
   decoder.setUpdateScreenCallback(updateScreenCallback);

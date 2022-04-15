@@ -82,12 +82,12 @@ bool init_done = 0;
 // They are not relevant if you don't actually use FastLED pixel output but cause
 // no harm if we only include FastLED for its CRGB struct.
 #ifdef ESP32
-  // Allow infrared for old FastLED versions
-  #define FASTLED_ALLOW_INTERRUPTS 1
-  // Newer Samguyver ESP32 FastLED has a new I2S implementation that can be
-  // better (or worse) than then default RMT which only supports 8 channels.
-  #define FASTLED_ESP32_I2S
-  #pragma message "Please use https://github.com/samguyer/FastLED.git if stock FastLED is unstable with ESP32"
+// Allow infrared for old FastLED versions
+#define FASTLED_ALLOW_INTERRUPTS 1
+// Newer Samguyver ESP32 FastLED has a new I2S implementation that can be
+// better (or worse) than then default RMT which only supports 8 channels.
+#define FASTLED_ESP32_I2S
+#pragma message "Please use https://github.com/samguyer/FastLED.git if stock FastLED is unstable with ESP32"
 #endif //ESP32
 
 #include <FastLED.h>
@@ -108,24 +108,24 @@ bool init_done = 0;
 
 #if defined(ESP8266)
 
-  //#define FS_PREFIX ""
-  #include <FS.h>
-  #define FSO SPIFFS
-  #define FSOSPIFFS
+//#define FS_PREFIX ""
+#include <FS.h>
+#define FSO SPIFFS
+#define FSOSPIFFS
 
-  #if GIF_SIZE == 64
-  
-    #define GIF_DIRECTORY FS_PREFIX "/gifs64/"
-  #elif GIF_SIZE == 32 //GIF_SIZE == 64
-  
-    #define GIF_DIRECTORY FS_PREFIX "/gifs32/"
-  #elif GIF_SIZE == 16 //GIF_SIZE == 64
-  
-    #define GIF_DIRECTORY FS_PREFIX "/gifs16/"
-  #else //GIF_SIZE == 64
-  
-    #define GIF_DIRECTORY FS_PREFIX "/gif/"
-  #endif //GIF_SIZE == 64
+#if GIF_SIZE == 64
+
+#define GIF_DIRECTORY FS_PREFIX "/gifs64/"
+#elif GIF_SIZE == 32 //GIF_SIZE == 64
+
+#define GIF_DIRECTORY FS_PREFIX "/gifs32/"
+#elif GIF_SIZE == 16 //GIF_SIZE == 64
+
+#define GIF_DIRECTORY FS_PREFIX "/gifs16/"
+#else //GIF_SIZE == 64
+
+#define GIF_DIRECTORY FS_PREFIX "/gif/"
+#endif //GIF_SIZE == 64
 
 
 extern "C"
@@ -137,42 +137,42 @@ extern "C"
 
 //#define FS_PREFIX ""
 
-  #if ESP32FATFS
+#if ESP32FATFS
 
-    #include "FFat.h"
-    #define FSO FFat
-    #define FSOFAT
+#include "FFat.h"
+#define FSO FFat
+#define FSOFAT
 
-  #else //ESP32FATFS
-  
-    // LittleFS is more memory efficient than FatFS
-    #include "FS.h"
-    #include <LITTLEFS.h>
-    #define FSO LITTLEFS
-    #define FSOLITTLEFS
-  
-  #endif //ESP32FATFS
+#else //ESP32FATFS
+
+// LittleFS is more memory efficient than FatFS
+#include "FS.h"
+#include <LITTLEFS.h>
+#define FSO LITTLEFS
+#define FSOLITTLEFS
+
+#endif //ESP32FATFS
 
 
-  #if GIF_SIZE == 64
-    #define GIF_DIRECTORY FS_PREFIX "/gifs64"  
-  #elif GIF_SIZE == 32 //GIF_SIZE == 64
-    #define GIF_DIRECTORY FS_PREFIX "/gifs"  
-  #else //GIF_SIZE == 64  
-    #define GIF_DIRECTORY FS_PREFIX "/"
-  #endif // GIF_SIZE == 64
+#if GIF_SIZE == 64
+#define GIF_DIRECTORY FS_PREFIX "/gifs64"
+#elif GIF_SIZE == 32 //GIF_SIZE == 64
+#define GIF_DIRECTORY FS_PREFIX "/gifs"
+#else //GIF_SIZE == 64  
+#define GIF_DIRECTORY FS_PREFIX "/"
+#endif // GIF_SIZE == 64
 #else //defined(ESP8266)
 
-  //#define FS_PREFIX ""
-  #define FSO SD
-  #define FSOSD
+//#define FS_PREFIX ""
+#define FSO SD
+#define FSOSD
 
-  #if defined (ARDUINO)
-    #include <SD.h>
-  
-  #endif //defined (ARDUINO)
+#if defined (ARDUINO)
+#include <SD.h>
 
-#endif 
+#endif //defined (ARDUINO)
+
+#endif
 
 
 //============================================================================
@@ -183,6 +183,10 @@ extern "C"
 //
 
 //----------------------------------------------------------------------------
+
+
+CRGB *matrixleds;
+
 #if defined(MATRIX_SIZE_16X16)
 
 #include <FastLED_NeoMatrix.h>
@@ -197,7 +201,7 @@ const uint16_t MATRIX_TILE_HEIGHT = 16; // height of each matrix
 const uint8_t MATRIX_TILE_H     = 1;  // number of matrices arranged horizontally
 const uint8_t MATRIX_TILE_V     = 1;  // number of matrices arranged vertically
 
-CRGB *matrixleds;
+//CRGB *matrixleds;
 
 FastLED_NeoMatrix *matrix = new FastLED_NeoMatrix(matrixleds, MATRIX_TILE_WIDTH, MATRIX_TILE_HEIGHT,
     NEO_MATRIX_BOTTOM + NEO_MATRIX_LEFT +
@@ -218,7 +222,7 @@ const uint16_t MATRIX_TILE_HEIGHT = 24; // height of each matrix
 const uint8_t MATRIX_TILE_H     = 1;  // number of matrices arranged horizontally
 const uint8_t MATRIX_TILE_V     = 1;  // number of matrices arranged vertically
 
-CRGB *matrixleds;
+//CRGB *matrixleds;
 
 FastLED_NeoMatrix *matrix = new FastLED_NeoMatrix(matrixleds, MATRIX_TILE_WIDTH, MATRIX_TILE_HEIGHT,
     NEO_MATRIX_BOTTOM + NEO_MATRIX_LEFT +
@@ -237,7 +241,7 @@ const uint16_t MATRIX_TILE_HEIGHT = 32; // height of each matrix
 const uint8_t MATRIX_TILE_H     = 3;  // number of matrices arranged horizontally
 const uint8_t MATRIX_TILE_V     = 1;  // number of matrices arranged vertically
 
-CRGB *matrixleds;
+//CRGB *matrixleds;
 
 FastLED_NeoMatrix *matrix = new FastLED_NeoMatrix(matrixleds, MATRIX_TILE_WIDTH, MATRIX_TILE_HEIGHT, MATRIX_TILE_H, MATRIX_TILE_V,
     NEO_MATRIX_TOP     + NEO_MATRIX_RIGHT +
@@ -257,7 +261,7 @@ const uint16_t MATRIX_TILE_HEIGHT = 8; // height of each matrix
 const uint8_t MATRIX_TILE_H     = 2; // number of matrices arranged horizontally
 const uint8_t MATRIX_TILE_V     = 2; // number of matrices arranged vertically
 
-CRGB *matrixleds;
+//CRGB *matrixleds;
 
 FastLED_NeoMatrix *matrix = new FastLED_NeoMatrix(matrixleds, MATRIX_TILE_WIDTH, MATRIX_TILE_HEIGHT, MATRIX_TILE_H, MATRIX_TILE_V,
     NEO_MATRIX_BOTTOM     + NEO_MATRIX_RIGHT +
@@ -279,7 +283,7 @@ const uint16_t MATRIX_TILE_HEIGHT = 16; // height of each matrix
 const uint8_t MATRIX_TILE_H     = 2; // number of matrices arranged horizontally
 const uint8_t MATRIX_TILE_V     = 2; // number of matrices arranged vertically
 
-CRGB *matrixleds;
+//CRGB *matrixleds;
 
 FastLED_NeoMatrix *matrix = new FastLED_NeoMatrix(matrixleds, MATRIX_TILE_WIDTH, MATRIX_TILE_HEIGHT, MATRIX_TILE_H, MATRIX_TILE_V,
     NEO_MATRIX_BOTTOM  + NEO_MATRIX_RIGHT +
@@ -301,12 +305,14 @@ const uint16_t MATRIX_TILE_HEIGHT = 16; // height of each matrix
 const uint8_t MATRIX_TILE_H     = 2; // number of matrices arranged horizontally
 const uint8_t MATRIX_TILE_V     = 2; // number of matrices arranged vertically
 
-CRGB *matrixleds;
+//CRGB *matrixleds;
 
-FastLED_NeoMatrix *matrix = new FastLED_NeoMatrix(matrixleds, MATRIX_TILE_WIDTH, MATRIX_TILE_HEIGHT, MATRIX_TILE_H, MATRIX_TILE_V,
-    NEO_MATRIX_BOTTOM  + NEO_MATRIX_LEFT +
-    NEO_TILE_ROWS + NEO_TILE_PROGRESSIVE +
-    NEO_TILE_BOTTOM + NEO_TILE_LEFT +  NEO_TILE_PROGRESSIVE);
+FastLED_NeoMatrix *matrix = new FastLED_NeoMatrix(matrixleds,
+    MATRIX_TILE_WIDTH,
+    MATRIX_TILE_HEIGHT,
+    MATRIX_TILE_H,
+    MATRIX_TILE_V,
+    NEO_MATRIX_BOTTOM + NEO_MATRIX_LEFT + NEO_TILE_ROWS + NEO_TILE_PROGRESSIVE + NEO_TILE_BOTTOM + NEO_TILE_LEFT + NEO_TILE_PROGRESSIVE);
 
 const uint8_t MATRIXPIN = MATRIX_PIN;
 
@@ -325,10 +331,8 @@ const uint16_t MATRIX_TILE_HEIGHT = 64; // height of each matrix
 const uint8_t MATRIX_TILE_H     = 1;  // number of matrices arranged horizontally
 const uint8_t MATRIX_TILE_V     = 1;  // number of matrices arranged vertically
 
-#define NUM_STRIPS 16
-#define NUM_LEDS_PER_STRIP 256
 
-CRGB *matrixleds;
+//CRGB *matrixleds;
 
 FastLED_NeoMatrix *matrix = new FastLED_NeoMatrix(matrixleds, MATRIX_TILE_WIDTH, MATRIX_TILE_HEIGHT,
     NEO_MATRIX_BOTTOM + NEO_MATRIX_LEFT +
@@ -360,13 +364,13 @@ const uint16_t MATRIX_WIDTH  = MATRIX_TILE_WIDTH *  MATRIX_TILE_H;
 const uint16_t MATRIX_HEIGHT = MATRIX_TILE_HEIGHT * MATRIX_TILE_V;
 
 // Used by NeoMatrix
-const uint16_t mw = MATRIX_WIDTH;
-const uint16_t mh = MATRIX_HEIGHT;
+//const uint16_t mw = MATRIX_WIDTH;
+//const uint16_t mh = MATRIX_HEIGHT;
 //#endif
 
 // Used by some demos
-const uint32_t NUMMATRIX = mw * mh;
-const uint32_t NUM_LEDS = NUMMATRIX;
+//const uint32_t NUMMATRIX = mw * mh; MATRIX_WIDTH*MATRIX_HEIGHT
+//const uint32_t NUM_LEDS = NUMMATRIX;
 
 // Compat with SmartMatrix code that uses those variables
 // (but don't redefine for SmartMatrix backend)
